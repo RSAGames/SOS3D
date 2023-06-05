@@ -1,0 +1,218 @@
+# =============== #
+# Unity generated #
+# =============== #
+
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+
+# =================================== #
+# Visual Studio / MonoDevelop generated #
+# =================================== #
+
+/*.booproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.pdb
+*.opendb
+*.VC.db
+
+# ======== #
+# Gradle #
+# ======== #
+
+/gradle/
+.gradle/
+
+# ========== #
+# NuGet #
+# ========== #
+
+/Assets/Plugins/NuGet/
+
+# =================== #
+# Custom build rules #
+# =================== #
+
+/Assets/WebGLTemplates/
+/Assets/StreamingAssets/
+
+
+#====================================================================#
+# Characters FBX files
+#====================================================================#
+/Assets/Characters/
+# ============================== #
+# Crashlytics generated file #
+# ============================== #
+
+crashlytics-build.properties
+
+# ============= #
+# Build folder #
+# ============= #
+
+/[Bb]uild/
+
+# =========================== #
+# .NET Core #
+# =========================== #
+
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.proj
+
+# ========================== #
+# Compiled Object files #
+# ========================== #
+
+*.slo
+*.lo
+*.o
+*.obj
+
+# =========================== #
+# Precompiled Headers #
+# =========================== #
+
+*.gch
+*.pch
+
+# ============================== #
+# Compiled Dynamic libraries #
+# ============================== #
+
+*.so
+*.dylib
+*.dll
+
+# ============================ #
+# Fortran module files #
+# ============================ #
+
+*.mod
+*.smod
+
+# ============================= #
+# Compiled Static libraries #
+# ============================= #
+
+*.lai
+*.la
+*.a
+*.lib
+
+# ================== #
+# Executables #
+# ================== #
+
+*.exe
+*.out
+*.app
+*.ipa
+*.apk
+*.xap
+
+# ===================================== #
+# Unity3D generated meta files #
+# ===================================== #
+
+*.pidb.meta
+
+# ================================ #
+# Unity3D generated file on crash reports #
+# ================================ #
+
+sysinfo.txt
+
+# =========================== #
+# Unity3D generated crash dumps #
+# =========================== #
+
+*.dmp
+*.crash
+*.coverage
+
+# ===================== #
+# JetBrains Rider #
+# ===================== #
+
+/.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.pdb
+*.opendb
+*.VC.db
+
+# =========== #
+# Mac #
+# =========== #
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ================= #
+# Icon must end with two \r #
+# ================= #
+
+Icon
+
+# ================= #
+# Thumbnails #
+# ================= #
+
+._*
+
+# ================= #
+# Files that might appear on external disk #
+# ================= #
+
+.Spotlight-V100
+.Trashes
+
+# ================================ #
+# Directories potentially created on remote AFP share #
+# ================================ #
+
+.AppleDB
+
+# =============================== #
+# Unity3D Auto generated folders #
+# =============================== #
+
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Tt]emp/
+
+# =============================== #
+# Unity3D Auto generated files #
+# =============================== #
+
+*.unitypackage
+*.unityproj
+*.pidb.meta
+!*.unity
+!*.prefab
+!*.mat
+!*.anim
+!*.unitypackage
+!*.asset
+!*.prefs
