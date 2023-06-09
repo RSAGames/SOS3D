@@ -6,10 +6,11 @@ using UnityEngine.InputSystem;
 public class CharacterKeyboardMover : MonoBehaviour
 {
     [SerializeField] float speed = 3.5f;
-    [SerializeField] float rotationSpeed = 180f; // New variable for rotation speed
+    [SerializeField] float rotationSpeed = 180f;
     [SerializeField] float gravity = 9.81f;
     [SerializeField] float jumpHeight = 1.5f;
 
+    private int frameCount = 0;
     private CharacterController cc;
     private Animator animator;
 
@@ -18,10 +19,13 @@ public class CharacterKeyboardMover : MonoBehaviour
     [SerializeField] InputAction runningAction;
     [SerializeField] InputAction cprAction;
 
+    private Coroutine cprCoroutine;
+
     private void OnEnable()
     {
         moveAction.Enable();
         jumpAction.Enable();
+        jumpAction.canceled += OnButtonReleased;
         runningAction.Enable();
         cprAction.Enable();
     }
@@ -30,32 +34,20 @@ public class CharacterKeyboardMover : MonoBehaviour
     {
         moveAction.Disable();
         jumpAction.Disable();
+        jumpAction.canceled -= OnButtonReleased;
         runningAction.Disable();
         cprAction.Disable();
     }
 
+    private void OnButtonReleased(InputAction.CallbackContext context)
+    {
+        Debug.Log("Button released increasing speed");
+        animator.speed += 0.1f;
+    }
+
     void OnValidate()
     {
-        if (moveAction == null)
-            moveAction = new InputAction(type: InputActionType.Value);
-        if (moveAction.bindings.Count == 0)
-            moveAction.AddCompositeBinding("2DVector")
-                .With("Up", "<Keyboard>/W")
-                .With("Down", "<Keyboard>/S")
-                .With("Left", "<Keyboard>/A")
-                .With("Right", "<Keyboard>/D");
-        if (jumpAction == null)
-            jumpAction = new InputAction(type: InputActionType.Button);
-        if (jumpAction.bindings.Count == 0)
-            jumpAction.AddBinding("<Keyboard>/space");
-        if (runningAction == null)
-            runningAction = new InputAction(type: InputActionType.Button);
-        if (runningAction.bindings.Count == 0)
-            runningAction.AddBinding("<Keyboard>/leftShift");
-        if (cprAction == null)
-            cprAction = new InputAction(type: InputActionType.Button);
-        if (cprAction.bindings.Count == 0)
-            cprAction.AddBinding("<Keyboard>/c");
+        // ...
     }
 
     void Start()
@@ -73,30 +65,45 @@ public class CharacterKeyboardMover : MonoBehaviour
     }
 
     Vector3 velocity = Vector3.zero;
-    Coroutine cprCoroutine;
 
-    IEnumerator StopCPR()
+    IEnumerator HandleCPR()
     {
-        animator.SetBool("CPR_Loop", true);
-        yield return new WaitForSeconds(120);
-        animator.SetBool("CPR_Loop", false);
-        animator.SetBool("CPR", false);
+        // make a 120 sec timer checking for player space key presses and adjusting animator speed accordingly
+        frameCount = 0;      
+        float startTime = Time.time;
+        float endTime = startTime + 120f;
+        animator.speed = 1f;
+        while (Time.time < endTime)
+        {
+            if (jumpAction.triggered)
+            {
+                Debug.Log("CPR Action Triggered");
+            }
+            else if (animator.speed > 0.6f && frameCount % 16 == 0)
+            {
+                Debug.Log("Reducing speed :" + animator.speed + " FrameCount = " + frameCount);
+                animator.speed -= 0.1f;
+            }
+            frameCount++;
+            yield return null;
+        }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (cc.isGrounded)
         {
-            Vector2 movement = moveAction.ReadValue<Vector2>();
-            float currentSpeed = speed;
-
             // Handle rotation
             float rotationInput = moveAction.ReadValue<Vector2>().x; // Read the 'A' and 'D' keys
             float rotationAmount = rotationInput * rotationSpeed * Time.deltaTime;
-            transform.forward = Quaternion.Euler(0, rotationAmount, 0) * transform.forward;
+            transform.Rotate(0f, rotationAmount, 0f);
+
+            Vector2 movement = moveAction.ReadValue<Vector2>();
+            float currentSpeed = speed;
+
             if (runningAction.IsPressed() && movement.magnitude > 0)
             {
-                currentSpeed *= 2f; // Double the speed when running
+                currentSpeed *= 2f;
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
             }
@@ -118,17 +125,26 @@ public class CharacterKeyboardMover : MonoBehaviour
                 velocity = Vector3.zero;
                 animator.SetBool("isWalking", false);
             }
-
-           
         }
         else
         {
             velocity.y -= gravity * Time.deltaTime;
         }
 
-        if (jumpAction.triggered && cc.isGrounded)
+        if (jumpAction.triggered && cc.isGrounded && !animator.GetBool("CPR"))
         {
-            velocity.y = Mathf.Sqrt(2 * gravity * jumpHeight);
+            animator.SetTrigger("Jump");
+            velocity.y = Mathf.Sqrt(2 * jumpHeight * gravity);
+        }
+
+        if (cprAction.triggered)
+        {
+            if (cprCoroutine != null)
+            {
+                StopCoroutine(cprCoroutine);
+            }
+            cprCoroutine = StartCoroutine(HandleCPR());
+            animator.SetBool("CPR", true);
         }
 
         cc.Move(velocity * Time.deltaTime);
