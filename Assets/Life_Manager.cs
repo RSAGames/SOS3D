@@ -11,6 +11,8 @@ public class Life_Manager : MonoBehaviour
     private GameObject Lifes;
     [SerializeField]
     private bool isTriggered = false;
+    [SerializeField]
+    
 
     // Start is called before the first frame update
     void Start()
@@ -53,5 +55,15 @@ public class Life_Manager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void CallTrigger(GameManager gameManager)
+
+        // check if gameManager is really a GameManager
+        // if it is, call Trigger
+
+    {
+        if (gameManager is GameManager) 
+        isTriggered = true;
     }
 }

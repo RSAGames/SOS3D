@@ -96,7 +96,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
        if(tests_bool){
-        lifeManager.isTriggered = true;
+        lifeManager.CallTrigger(this);
        }
     }
+
+
 }
