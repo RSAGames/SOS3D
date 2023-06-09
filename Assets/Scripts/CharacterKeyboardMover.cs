@@ -41,8 +41,10 @@ public class CharacterKeyboardMover : MonoBehaviour
 
     private void OnButtonReleased(InputAction.CallbackContext context)
     {
+        if (animator.GetBool("CPR")){
         Debug.Log("Button released increasing speed");
         animator.speed += 0.1f;
+        }
     }
 
     void OnValidate()
@@ -79,7 +81,7 @@ public class CharacterKeyboardMover : MonoBehaviour
             {
                 Debug.Log("CPR Action Triggered");
             }
-            else if (animator.speed > 0.6f && frameCount % 16 == 0)
+            else if (animator.speed > 0.6f && frameCount % 60 == 0)
             {
                 Debug.Log("Reducing speed :" + animator.speed + " FrameCount = " + frameCount);
                 animator.speed -= 0.1f;
