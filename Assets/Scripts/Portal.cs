@@ -10,7 +10,7 @@ public class Portal : MonoBehaviour
     [SerializeField] private InputAction Enter;
     [SerializeField] private GameObject MessageBoard;
     [SerializeField] private GameObject VideoPlayer;
-    
+
     private void Awake()
     {
         Collider = GetComponent<Collider>();
@@ -42,12 +42,12 @@ public class Portal : MonoBehaviour
 
     private void OnValidate()
     {
-        if(Enter == null)
+        if (Enter == null)
         {
             Enter = new InputAction("Enter", binding: "<Keyboard>/e");
         }
 
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -79,11 +79,7 @@ public class Portal : MonoBehaviour
                 Debug.Log("Enter triggered");
                 // Play video
                 VideoPlayer.SetActive(true);
-                
-
-                // Display message to press E to exit portal
             }
         }
-        // Display messsage to press E to enter portal
     }
 }
