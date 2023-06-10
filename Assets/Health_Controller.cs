@@ -7,8 +7,8 @@ public class Health_Controller : MonoBehaviour
 {
     [SerializeField] private float health = 100f;
     [SerializeField] private float damage = 10f;
-    [SerializeField] private float heal = 10f;
-    [SerializeField] private float healRate = 1f;
+    // [SerializeField] private float heal = 10f;
+    // [SerializeField] private float healRate = 1f;
     private Image healthBar;
 
 

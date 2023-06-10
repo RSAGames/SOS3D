@@ -58,12 +58,11 @@ public class Life_Manager : MonoBehaviour
     }
 
     public void CallTrigger(GameManager gameManager)
-
-        // check if gameManager is really a GameManager
-        // if it is, call Trigger
-
     {
-        if (gameManager is GameManager) 
-        isTriggered = true;
+        Debug.Log("Triggered");
+        if (gameManager is GameManager) {
+            Debug.Log("GameManager");
+            isTriggered = true;
+        }
     }
 }
