@@ -8,25 +8,25 @@ public class Portal : MonoBehaviour
 
     private Collider Collider;
     [SerializeField] private InputAction Enter;
-    [SerializeField] private GameObject panel;
-    private GameObject text;
+    [SerializeField] private GameObject MessageBoard;
+    [SerializeField] private GameObject VideoPlayer;
+    
     private void Awake()
     {
         Collider = GetComponent<Collider>();
         Collider.isTrigger = true;
-        
     }
 
     private void Start()
     {
-        if (panel == null)
+        if (MessageBoard == null)
         {
-            panel = GameObject.Find("Canvas/MessageBoard");
-            Debug.Log("Could not find panel");
+            MessageBoard = GameObject.Find("Canvas/MessageBoard");
+            Debug.Log("Could not find MessageBoard");
         }
         else
         {
-            Debug.Log("Found panel");
+            Debug.Log("Found MessageBoard");
         }
     }
 
@@ -54,7 +54,7 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            panel.SetActive(true);
+            MessageBoard.SetActive(true);
             Debug.Log("Triggered");
         }
 
@@ -64,7 +64,7 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            panel.SetActive(false);
+            MessageBoard.SetActive(false);
             Debug.Log("Triggered Exit");
         }
     }
@@ -77,7 +77,11 @@ public class Portal : MonoBehaviour
             if (Enter.triggered)
             {
                 Debug.Log("Enter triggered");
-                // Teleport player to next level
+                // Play video
+                VideoPlayer.SetActive(true);
+                
+
+                // Display message to press E to exit portal
             }
         }
         // Display messsage to press E to enter portal
