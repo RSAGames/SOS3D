@@ -12,7 +12,11 @@ NavMeshProjectSettings:
   - name: Jump
     cost: 2
   - name: Player
-    cost: 4
+    cost: 2
+  - name: All
+    cost: 1
+  - name: 
+    cost: 2
   - name: 
     cost: 1
   - name: 
@@ -35,12 +39,8 @@ NavMeshProjectSettings:
     cost: 1
   - name: 
     cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: Road
+    cost: 2
   - name: 
     cost: 1
   - name: 
