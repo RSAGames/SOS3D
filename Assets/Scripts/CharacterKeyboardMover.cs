@@ -17,7 +17,7 @@ public class CharacterKeyboardMover : MonoBehaviour
     [SerializeField] InputAction moveAction;
     [SerializeField] InputAction jumpAction;
     [SerializeField] InputAction runningAction;
-    [SerializeField] InputAction cprAction;
+    // [SerializeField] InputAction cprAction;
 
     private Coroutine cprCoroutine;
 
@@ -26,7 +26,7 @@ public class CharacterKeyboardMover : MonoBehaviour
         moveAction.Enable();
         jumpAction.Enable();
         runningAction.Enable();
-        cprAction.Enable();
+        // cprAction.Enable();
     }
 
     private void OnDisable()
@@ -34,7 +34,7 @@ public class CharacterKeyboardMover : MonoBehaviour
         moveAction.Disable();
         jumpAction.Disable();
         runningAction.Disable();
-        cprAction.Disable();
+        // cprAction.Disable();
     }
 
     void OnValidate()
@@ -58,34 +58,34 @@ public class CharacterKeyboardMover : MonoBehaviour
 
     Vector3 velocity = Vector3.zero;
 
-    IEnumerator HandleCPR()
-    {
-        // make a 120 sec timer checking for player space key presses and adjusting animator speed accordingly
-        frameCount = 0;      
-        float startTime = Time.time;
-        float endTime = startTime + 120f;
-        animator.speed = 1f;
-        moveAction.Disable();
-        while (Time.time < endTime)
-        {
-            if (jumpAction.triggered)
-            {
-                Debug.Log("CPR Action Triggered");
-                if (animator.GetBool("CPR")){
-                Debug.Log("Button released increasing speed");
-                animator.speed += 0.1f;
-        }
-            }
-            else if (animator.speed > 0.6f && frameCount % 60 == 0)
-            {
-                Debug.Log("Reducing speed :" + animator.speed + " FrameCount = " + frameCount);
-                animator.speed -= 0.1f;
-            }
-            frameCount++;
-            yield return null;
-        }
-        moveAction.Enable();
-    }
+    // IEnumerator HandleCPR()
+    // {
+    //     // make a 120 sec timer checking for player space key presses and adjusting animator speed accordingly
+    //     frameCount = 0;      
+    //     float startTime = Time.time;
+    //     float endTime = startTime + 120f;
+    //     animator.speed = 1f;
+    //     moveAction.Disable();
+    //     while (Time.time < endTime)
+    //     {
+    //         if (jumpAction.triggered)
+    //         {
+    //             Debug.Log("CPR Action Triggered");
+    //             if (animator.GetBool("CPR")){
+    //             Debug.Log("Button released increasing speed");
+    //             animator.speed += 0.1f;
+    //     }
+    //         }
+    //         else if (animator.speed > 0.6f && frameCount % 60 == 0)
+    //         {
+    //             Debug.Log("Reducing speed :" + animator.speed + " FrameCount = " + frameCount);
+    //             animator.speed -= 0.1f;
+    //         }
+    //         frameCount++;
+    //         yield return null;
+    //     }
+    //     moveAction.Enable();
+    // }
 
     void FixedUpdate()
     {
@@ -135,15 +135,15 @@ public class CharacterKeyboardMover : MonoBehaviour
             velocity.y = Mathf.Sqrt(2 * jumpHeight * gravity);
         }
 
-        if (cprAction.triggered)
-        {
-            if (cprCoroutine != null)
-            {
-                StopCoroutine(cprCoroutine);
-            }
-            cprCoroutine = StartCoroutine(HandleCPR());
-            animator.SetBool("CPR", true);
-        }
+        // if (cprAction.triggered)
+        // {
+            // if (cprCoroutine != null)
+            // {
+            //     StopCoroutine(cprCoroutine);
+            // }
+            // cprCoroutine = StartCoroutine(HandleCPR());
+            // animator.SetBool("CPR", true);
+        // }
 
         cc.Move(velocity * Time.deltaTime);
     }
