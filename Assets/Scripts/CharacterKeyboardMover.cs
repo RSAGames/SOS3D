@@ -39,14 +39,6 @@ public class CharacterKeyboardMover : MonoBehaviour
         cprAction.Disable();
     }
 
-    private void OnButtonReleased(InputAction.CallbackContext context)
-    {
-        if (animator.GetBool("CPR")){
-        Debug.Log("Button released increasing speed");
-        animator.speed += 0.1f;
-        }
-    }
-
     void OnValidate()
     {
         // ...
@@ -81,6 +73,10 @@ public class CharacterKeyboardMover : MonoBehaviour
             if (jumpAction.triggered)
             {
                 Debug.Log("CPR Action Triggered");
+                if (animator.GetBool("CPR")){
+                Debug.Log("Button released increasing speed");
+                animator.speed += 0.1f;
+        }
             }
             else if (animator.speed > 0.6f && frameCount % 60 == 0)
             {
