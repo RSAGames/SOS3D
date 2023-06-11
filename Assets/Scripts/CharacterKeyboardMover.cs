@@ -25,7 +25,6 @@ public class CharacterKeyboardMover : MonoBehaviour
     {
         moveAction.Enable();
         jumpAction.Enable();
-        jumpAction.canceled += OnButtonReleased;
         runningAction.Enable();
         cprAction.Enable();
     }
@@ -34,7 +33,6 @@ public class CharacterKeyboardMover : MonoBehaviour
     {
         moveAction.Disable();
         jumpAction.Disable();
-        jumpAction.canceled -= OnButtonReleased;
         runningAction.Disable();
         cprAction.Disable();
     }
