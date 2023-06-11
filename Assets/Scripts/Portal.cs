@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Portal : MonoBehaviour
 {
-
     private Collider Collider;
     [SerializeField] private InputAction Enter;
-    [SerializeField] private GameObject MessageBoard;
+    private GameObject MessageBoard;
+    [SerializeField] private TextMeshProUGUI MessageBoardText;
     [SerializeField] private GameObject VideoPlayer;
 
     private void Awake()
@@ -19,14 +20,12 @@ public class Portal : MonoBehaviour
 
     private void Start()
     {
-        if (MessageBoard == null)
+        MessageBoard = GameObject.Find("Canvas/MessageBoard");
+        MessageBoardText = GameObject.Find("Canvas/MessageBoard/Text").GetComponent<TextMeshProUGUI>();
+
+        if (MessageBoard != null)
         {
-            MessageBoard = GameObject.Find("Canvas/MessageBoard");
-            Debug.Log("Could not find MessageBoard");
-        }
-        else
-        {
-            Debug.Log("Found MessageBoard");
+            MessageBoard.SetActive(false);
         }
     }
 
@@ -54,6 +53,7 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            MessageBoardText.text = "Press E to Enter the building";
             MessageBoard.SetActive(true);
             Debug.Log("Triggered");
         }
@@ -62,10 +62,13 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+         if (other.gameObject.tag == "Player")
         {
-            MessageBoard.SetActive(false);
-            Debug.Log("Triggered Exit");
+            if (MessageBoard != null)
+            {
+                MessageBoard.SetActive(false);
+                Debug.Log("Triggered Exit");
+            }
         }
     }
 
