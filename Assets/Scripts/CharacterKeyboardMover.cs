@@ -75,6 +75,8 @@ public class CharacterKeyboardMover : MonoBehaviour
         float startTime = Time.time;
         float endTime = startTime + 120f;
         animator.speed = 1f;
+        jumpAction.Disable();
+        moveAction.Disable();
         while (Time.time < endTime)
         {
             if (jumpAction.triggered)
@@ -89,6 +91,8 @@ public class CharacterKeyboardMover : MonoBehaviour
             frameCount++;
             yield return null;
         }
+        jumpAction.Enable();
+        moveAction.Enable();
     }
 
     void FixedUpdate()
