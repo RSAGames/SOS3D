@@ -94,7 +94,9 @@ public class AgentController : MonoBehaviour
         {
             animator.SetBool("isWalking", false);
             int randomIndex = Random.Range(0, wayPoints.Length);
-            agent.SetDestination(wayPoints[randomIndex].transform.position);
+            UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
+            UnityEngine.AI.NavMesh.CalculatePath(transform.position, wayPoints[randomIndex].transform.position, UnityEngine.AI.NavMesh.AllAreas, path);
+            agent.SetPath(path);
             animator.SetBool("isWalking", true);
 }
 }
