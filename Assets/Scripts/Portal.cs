@@ -7,10 +7,14 @@ using TMPro;
 public class Portal : MonoBehaviour
 {
     private Collider Collider;
-    [SerializeField] private InputAction Enter;
+    [SerializeField]
+    private InputAction Enter;
+    [SerializeField]
     private GameObject MessageBoard;
-    [SerializeField] private TextMeshProUGUI MessageBoardText;
-    [SerializeField] private GameObject VideoPlayer;
+    [SerializeField]
+    private TextMeshProUGUI MessageBoardText;
+    [SerializeField]
+    private GameObject VideoPlayer;
 
     private void Awake()
     {
@@ -20,13 +24,7 @@ public class Portal : MonoBehaviour
 
     private void Start()
     {
-        MessageBoard = GameObject.Find("Canvas/MessageBoard");
-        MessageBoardText = GameObject.Find("Canvas/MessageBoard/Text").GetComponent<TextMeshProUGUI>();
-
-        if (MessageBoard != null)
-        {
-            MessageBoard.SetActive(false);
-        }
+        
     }
 
     private void OnEnable()
