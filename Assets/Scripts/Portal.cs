@@ -24,7 +24,6 @@ public class Portal : MonoBehaviour
 
     private void Start()
     {
-        
     }
 
     private void OnEnable()
@@ -60,7 +59,7 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-         if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             if (MessageBoard != null)
             {
