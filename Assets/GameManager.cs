@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] prefabsToCreate;
     [SerializeField] private int numberOfPrefabsToCreate;
     [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Transform[] navigationPoints;
     private bool tests_bool = true;
     
     // Start is called before the first frame update
@@ -108,16 +109,17 @@ public class GameManager : MonoBehaviour
             int randomIndex = Random.Range(0, prefabsToCreate.Length);
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
             Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
-            Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+            GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+            InstantiatedPrefab.GetComponent<AgentNavigation>().SetNavPoints(navigationPoints);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-       if(tests_bool){
-        lifeManager.CallTrigger(this);
-       }
+    //    if(tests_bool){
+    //     lifeManager.CallTrigger(this);
+    //    }
     }
 
 

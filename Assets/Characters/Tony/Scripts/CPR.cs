@@ -35,7 +35,6 @@ public class CPR : MonoBehaviour
     {
         MessageBoardText.text = "";
         characterController = GetComponent<CharacterController>();
-        patientAnimator = patient.GetComponent<Animator>();
     }
 
     void OnEnable()
