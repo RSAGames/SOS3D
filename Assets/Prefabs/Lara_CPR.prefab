@@ -212,3 +212,15 @@ MonoBehaviour:
   animator: {fileID: 0}
   navigationPoints: []
   navigationPointsSize: 10
+--- !u!114 &6088811284727319215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968924050486144281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbd74c0084710147a029208848aafea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -26,8 +26,7 @@ public class AgentNavigation : MonoBehaviour
             navigationPoints[i] = wayPoints[i].transform;
         }
         // set the agent's destination to a random navigation point
-        int randomIndex = Random.Range(0, navigationPoints.Length);
-    }
+        }
 
     // Start is called before the first frame update
     void Start()

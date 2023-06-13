@@ -11,16 +11,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerHealthBar;
     [SerializeField] private GameObject playerHealthBarBackground;
     [SerializeField] private GameObject playerHealthBarInner;
+    [SerializeField] private int numberOfPatients;
+    [SerializeField] private int numberOfAgents;
     [SerializeField] private Life_Manager lifeManager;
     [SerializeField] private GameObject[] prefabsToCreate;
     [SerializeField] private int numberOfPrefabsToCreate;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform[] navigationPoints;
+    [SerializeField] private GameObject[] prefabs;
     private bool tests_bool = true;
     
     // Start is called before the first frame update
     void Start()
     {
+        prefabs = new GameObject[numberOfPrefabsToCreate];
         lifeManager = GameObject.Find("Lifes").GetComponent<Life_Manager>();
         if (instance == null)
         {
@@ -110,7 +114,7 @@ public class GameManager : MonoBehaviour
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
             Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
             GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
-            InstantiatedPrefab.GetComponent<AgentNavigation>().SetNavPoints(navigationPoints);
+            prefabs[i] = InstantiatedPrefab;
         }
     }
 
