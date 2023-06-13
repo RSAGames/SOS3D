@@ -36,6 +36,12 @@ public class AgentNavigation : MonoBehaviour
 
    void Update()
     {
+        if (agent.isStopped == true)
+        {
+            animator.SetBool("isWalking", false);
+            agent.SetDestination(transform.position);
+        }
+        
         // if agent isn't moving, play idle animation and choose a new destination
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
@@ -51,5 +57,11 @@ public class AgentNavigation : MonoBehaviour
     public void SetNavPoints(Transform[] navigationPoints) 
     {
 
+    }
+
+    public void StopAgent()
+    {
+        // Stop the agent from moving
+        agent.isStopped = true;
     }
 }

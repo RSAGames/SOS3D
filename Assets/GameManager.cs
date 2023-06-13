@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         {
             int randomIndex = Random.Range(0, prefabsToCreate.Length);
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
-            Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
+            // Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
             GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
             prefabs[i] = InstantiatedPrefab;
         }
@@ -126,10 +126,15 @@ public class GameManager : MonoBehaviour
     {
         bool setPatient = CheckPatientsStatus();
         if(setPatient){
-            GameObject patient = chooseRandomPatient();
+            GameObject patient = ChooseRandomPatient();
             patients[numberOfActivePatients++] = patient;
+            Debug.Log("Patient " + patient + " added to the patients list");
+            patient.GetComponent<AgentNavigation>().StopAgent();
+            patient.GetComponent<AgentNavigation>().enabled = false;
+            patients[numberOfActivePatients - 1].GetComponent<Animator>().SetBool("Dying", true);
+            patients[numberOfActivePatients - 1].GetComponent<Animator>().SetBool("isLying", true);
+            
 
-            patients[numberOfActivePatients - 1].GetComponent<
         }
     }
     

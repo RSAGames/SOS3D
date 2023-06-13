@@ -21,7 +21,6 @@ public class CPR_Handler : MonoBehaviour
     {
         if (PlayerIsNearPatient())
         {
-            Debug.Log("Player is near patient");
             animator.SetBool("Dying", true);
             animator.SetBool("isLying", true);
         }
