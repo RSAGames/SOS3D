@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerHealthBarBackground;
     [SerializeField] private GameObject playerHealthBarInner;
     [SerializeField] private Life_Manager lifeManager;
+    [SerializeField] private GameObject[] prefabsToCreate;
+    [SerializeField] private int numberOfPrefabsToCreate;
+    [SerializeField] private Transform[] spawnPoints;
     private bool tests_bool = true;
     
     // Start is called before the first frame update
@@ -89,6 +92,23 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Life manager found");
+        }
+
+        if (prefabsToCreate.Length == 0)
+        {
+            Debug.Log("No prefabs to create");
+        }
+        else
+        {
+            Debug.Log("Prefabs to create found");
+        }
+
+        for (int i = 0; i < numberOfPrefabsToCreate; i++)
+        {
+            int randomIndex = Random.Range(0, prefabsToCreate.Length);
+            int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
+            Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
+            Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
         }
     }
 

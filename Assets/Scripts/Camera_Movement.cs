@@ -39,6 +39,7 @@ public class Camera_Movement : MonoBehaviour
         
         Vector3 rotation = transform.localEulerAngles;
         rotation.x -= mouseY * rotationSpeed;
+        rotation.y += mouseX * rotationSpeed;
         // rotation.y += mouseX * rotationSpeed;  // Rotation around the vertical (Y) axis
         transform.localEulerAngles = rotation;
 

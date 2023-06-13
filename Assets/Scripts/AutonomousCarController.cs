@@ -5,23 +5,46 @@ public class AutonomousCarController : MonoBehaviour
 {
     public string roadTag = "CarWay";
     private NavMeshAgent navMeshAgent;
-    private Vector3 currentDestination;
+    public Transform currentDestination;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        SetRandomDestinationOnRoad();
+        SetDestinationOnRoad();
     }
 
     private void Update()
     {
-        if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        if (navMeshAgent != null && !navMeshAgent.isOnNavMesh)
         {
-            SetRandomDestinationOnRoad();
+            PlaceAgentOnNavMesh();
+        }
+        else if (navMeshAgent != null && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        {
+            SetDestinationOnRoad();
+        }
+        else if (navMeshAgent == null)
+        {
+            Debug.Log("NavMeshAgent is null");
         }
     }
 
-    private void SetRandomDestinationOnRoad()
+    private void PlaceAgentOnNavMesh()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 100f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+            Debug.Log("Agent is now on the NavMesh!");
+            SetDestinationOnRoad();
+        }
+        else
+        {
+            Debug.Log("No valid position on the NavMesh!");
+        }
+    }
+
+    private void SetDestinationOnRoad()
     {
         GameObject[] roadObjects = GameObject.FindGameObjectsWithTag(roadTag);
 
@@ -33,11 +56,11 @@ public class AutonomousCarController : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 10f, NavMesh.AllAreas))
             {
-                currentDestination = hit.position;
+                currentDestination.position = hit.position;
 
-                if (NavMesh.CalculatePath(transform.position, currentDestination, NavMesh.AllAreas, new NavMeshPath()))
+                if (NavMesh.CalculatePath(transform.position, currentDestination.position, NavMesh.AllAreas, new NavMeshPath()))
                 {
-                    navMeshAgent.SetDestination(currentDestination);
+                    navMeshAgent.SetDestination(currentDestination.position);
                 }
                 else
                 {

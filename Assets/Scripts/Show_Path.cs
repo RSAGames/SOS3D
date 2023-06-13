@@ -63,7 +63,7 @@ public class Show_Path : MonoBehaviour
         {
             // Calculate the position of each dot along the path
             float distanceAlongPath = i * segmentLength;
-            Vector3 position = GetPointAlongPath(path, distanceAlongPath);
+            Vector3 position = GetPointAlongPath(path, distanceAlongPath) + route_offset;
 
             // Set the position in the line renderer
             lineRenderer.SetPosition(i, position + player.forward * 500f);

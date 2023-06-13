@@ -13,7 +13,7 @@ Material:
   - _ALPHATEST_ON
   - _EMISSION
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
@@ -81,7 +81,7 @@ Material:
     - _ColorMask: 15
     - _ColorMode: 0
     - _Cull: 2
-    - _Cutoff: 0.667
+    - _Cutoff: 0.98
     - _DetailNormalMapScale: 1
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
@@ -91,10 +91,10 @@ Material:
     - _EmissionEnabled: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 1
     - _GlossyReflections: 1
     - _LightingEnabled: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -116,9 +116,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.2028302, g: 0.28782013, b: 1, a: 1}
+    - _Color: {r: 0.11294055, g: 0.7824246, b: 0.8867924, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0.09411765, g: 0.76862746, b: 4, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
