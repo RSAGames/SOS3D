@@ -9,9 +9,9 @@ using UnityEngine.SceneManagement;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] InputAction moveAction;
-    [SerializeField] InputAction jump = new InputAction(type: InputActionType.Button);
-    [SerializeField] InputAction run = new InputAction(type: InputActionType.Button);
-    [SerializeField] InputAction cprAction = new InputAction(type: InputActionType.Button);
+    [SerializeField] InputAction jumpAction;
+    [SerializeField] InputAction runningAction;
+    [SerializeField] InputAction cprAction;
     [SerializeField] private GameObject MessageBoard;
     [SerializeField] private TextMeshProUGUI MessageBoardText;
     [SerializeField] string triggeringTag;
@@ -34,14 +34,26 @@ public class TutorialManager : MonoBehaviour
                 .With("Down", "<Keyboard>/S")
                 .With("Left", "<Keyboard>/A")
                 .With("Right", "<Keyboard>/D");
+        if (jumpAction == null)
+            jumpAction = new InputAction(type: InputActionType.Button);
+        if (jumpAction.bindings.Count == 0)
+            jumpAction.AddBinding("<Keyboard>/space");
+        if (runningAction == null)
+            runningAction = new InputAction(type: InputActionType.Button);
+        if (runningAction.bindings.Count == 0)
+            runningAction.AddBinding("<Keyboard>/leftShift");
+        if (cprAction == null)
+            cprAction = new InputAction(type: InputActionType.Button);
+        if (cprAction.bindings.Count == 0)
+            cprAction.AddBinding("<Keyboard>/c");
     }
 
     void OnEnable()
     {
         // Enable all InputActions when the script is enabled
         moveAction.Enable();
-        jump.Enable();
-        run.Enable();
+        jumpAction.Enable();
+        runningAction.Enable();
         cprAction.Enable();
     }
 
@@ -49,18 +61,18 @@ public class TutorialManager : MonoBehaviour
     {
         // Disable all InputActions when the script is disabled
         moveAction.Disable();
-        jump.Disable();
-        run.Disable();
+        jumpAction.Disable();
+        runningAction.Disable();
         cprAction.Disable();
     }
 
     // Update is called once per frame
     void Update(){
         Vector2 movement = moveAction.ReadValue<Vector2>();
-        if (run.IsPressed() && movement.magnitude > 0){
+        if (runningAction.IsPressed() && movement.magnitude > 0){
             MessageBoardText.text = "Go to the patient";
         }
-        else if (jump.IsPressed()){
+        else if (jumpAction.IsPressed()){
             MessageBoardText.text = "Use Left Shift key to run";
         }
         else if(movement.magnitude > 0){

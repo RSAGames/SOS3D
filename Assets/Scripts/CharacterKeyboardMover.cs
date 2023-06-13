@@ -39,6 +39,22 @@ public class CharacterKeyboardMover : MonoBehaviour
 
     void OnValidate()
     {
+        if (moveAction == null)
+            moveAction = new InputAction(type: InputActionType.Button);
+        if (moveAction.bindings.Count == 0)
+            moveAction.AddCompositeBinding("2DVector")
+                .With("Up", "<Keyboard>/W")
+                .With("Down", "<Keyboard>/S")
+                .With("Left", "<Keyboard>/A")
+                .With("Right", "<Keyboard>/D");
+        if (jumpAction == null)
+            jumpAction = new InputAction(type: InputActionType.Button);
+        if (jumpAction.bindings.Count == 0)
+            jumpAction.AddBinding("<Keyboard>/space");
+        if (runningAction == null)
+            runningAction = new InputAction(type: InputActionType.Button);
+        if (runningAction.bindings.Count == 0)
+            runningAction.AddBinding("<Keyboard>/leftShift");
     }
 
     void Start()
