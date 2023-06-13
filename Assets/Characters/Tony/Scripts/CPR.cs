@@ -35,6 +35,7 @@ public class CPR : MonoBehaviour
     {
         MessageBoardText.text = "";
         characterController = GetComponent<CharacterController>();
+        patientAnimator = patient.GetComponent<Animator>();
     }
 
     void OnEnable()
@@ -86,7 +87,9 @@ public class CPR : MonoBehaviour
 {
     
     playerAnimator.SetBool("isWalking", true);
+    // get heart object from patient son Wolf3D_Avatar (the heart is a child of the Wolf3D_Avatar)
     GameObject heart = patient.transform.Find("Heart").gameObject;
+
     // Get patient heart position by his child object called Heart
     if (heart == null)
     {
@@ -98,9 +101,9 @@ public class CPR : MonoBehaviour
         }
     Quaternion targetRotation = heart.transform.rotation;
 
-    while (Vector3.Distance(transform.position, targetPosition) > 0.05f || Quaternion.Angle(transform.rotation, targetRotation) > 0.05f)
+    while (Vector3.Distance(transform.position, targetPosition) > 0.01f || Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
     {
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.05f)
+        if (Vector3.Distance(transform.position, targetPosition) <= 0.01f)
         {
             playerAnimator.SetBool("isWalking", false);
         }
@@ -122,8 +125,8 @@ public class CPR : MonoBehaviour
 
     private void EndResuscitation()
     {
+        patientAnimator.SetBool("ReceivingCPR", false);
         playerAnimator.SetBool("CPR", false);
-        playerAnimator.SetBool("StandUp", false);
         isResuscitating = false;
         if (clicksPerMin >= requiredClicks && clicksPerMin <= maxClicks)
         {
@@ -133,13 +136,14 @@ public class CPR : MonoBehaviour
         {
             MessageBoardText.text = "CPR successful! You did " + clicksPerMin.ToString() + " clicks per minute.";
             patientAnimator.SetBool("ReceivingCPR", false);
-            patientAnimator.SetBool("StandUp", true);
+            patientAnimator.SetTrigger("StandUp");
         }
         else
         {
             MessageBoardText.text = "CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.";
             patientAnimator.SetBool("ReceivingCPR", false);
-            patientAnimator.SetBool("StandUp", false);
+            // Destroy(patient);
+            patientAnimator.SetTrigger("StandUp");
             Life_Manager.hasFailed = true;
         }
         rightClick.SetActive(false);
@@ -149,7 +153,7 @@ public class CPR : MonoBehaviour
 
     private bool PlayerIsNearPatient()
     {
-        return Vector3.Distance(transform.position, patient.transform.position) < 2f;
+        return Vector3.Distance(transform.position, patient.transform.position) < 5f;
     }
 
 

@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerHealthBarBackground;
     [SerializeField] private GameObject playerHealthBarInner;
     [SerializeField] private int numberOfPatients;
-    [SerializeField] private int numberOfAgents;
+    [SerializeField] private int numberOfActivePatients;
+    [SerializeField] private GameObject[] patients;
     [SerializeField] private Life_Manager lifeManager;
     [SerializeField] private GameObject[] prefabsToCreate;
     [SerializeField] private int numberOfPrefabsToCreate;
@@ -108,6 +109,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Prefabs to create found");
         }
 
+        patients = new GameObject[numberOfPatients];
+
         for (int i = 0; i < numberOfPrefabsToCreate; i++)
         {
             int randomIndex = Random.Range(0, prefabsToCreate.Length);
@@ -121,10 +124,53 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    //    if(tests_bool){
-    //     lifeManager.CallTrigger(this);
-    //    }
+        bool setPatient = CheckPatientsStatus();
+        if(setPatient){
+            GameObject patient = chooseRandomPatient();
+            patients[numberOfActivePatients++] = patient;
+
+            patients[numberOfActivePatients - 1].GetComponent<
+        }
+    }
+    
+    private bool CheckPatientsStatus(){
+        if(numberOfActivePatients == numberOfPatients){
+            return false;
+        }
+
+        return true;
+    }
+
+    private GameObject ChooseRandomPatient()
+{
+    int randomIndex = Random.Range(0, prefabs.Length);
+    GameObject randomPatient = prefabs[randomIndex];
+
+    // Check if the patient is already in the patients list
+    if (IsPatientInList(randomPatient))
+    {
+        // Choose another random patient
+        return ChooseRandomPatient();
+    }
+
+    return randomPatient;
+}
+
+private bool IsPatientInList(GameObject patient)
+{
+    // Check if the patient is already in the patients list by comparing game object IDs
+    for (int i = 0; i < patients.Length; i++)
+    {
+        if (patients[i] != null && patients[i].GetInstanceID() == patient.GetInstanceID())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+    
     }
 
 
-}
+
