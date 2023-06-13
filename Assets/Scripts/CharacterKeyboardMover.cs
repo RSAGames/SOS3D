@@ -39,7 +39,6 @@ public class CharacterKeyboardMover : MonoBehaviour
 
     void OnValidate()
     {
-        // ...
     }
 
     void Start()
