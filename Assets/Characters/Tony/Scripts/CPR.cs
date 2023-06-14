@@ -27,14 +27,16 @@ public class CPR : MonoBehaviour
     private IEnumerator coroutine;
     private AudioSource callingAudioSource;
     private bool startResuscitationOnce = true;
-    [SerializeField] private TextMeshProUGUI MessageBoardText;
+    [SerializeField] private GameObject MessageBoard;
 
     private CharacterController characterController;
 
     void Start()
     {
-        MessageBoardText.text = "";
+        // Get the CharacterController component from the GameObject
         characterController = GetComponent<CharacterController>();
+
+        MessageBoard = GameObject.Find("Canvas/MessageBoard");
         // patientAnimator = patient.GetComponent<Animator>();
     }
 
@@ -63,7 +65,7 @@ public class CPR : MonoBehaviour
             float timeElapsed = Time.time - startTime;
             clickCount++;
             clicksPerMin = Mathf.RoundToInt((clickCount / timeElapsed) * 60);
-            MessageBoardText.text = "You need to do between 100 to 120 clicks per minute\n Clicks per minute: " + clicksPerMin.ToString();
+            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("You need to do between 100 to 120 clicks per minute\n Clicks per minute: " + clicksPerMin.ToString());
         }
 
         if (isResuscitating)
@@ -134,14 +136,13 @@ public class CPR : MonoBehaviour
         }
         if (isSuccess)
         {
-            MessageBoardText.text = "CPR successful! You did " + clicksPerMin.ToString() + " clicks per minute.";
+            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("CPR succeeded. You did " + clicksPerMin.ToString() + " clicks per minute.");
             patientAnimator.SetBool("ReceivingCPR", false);
             patientAnimator.SetTrigger("StandUp");
         }
         else
         {
-            MessageBoardText.text = "CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.";
-            patientAnimator.SetBool("ReceivingCPR", false);
+            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.");
             // Destroy(patient);
             patientAnimator.SetTrigger("StandUp");
             Life_Manager.hasFailed = true;
