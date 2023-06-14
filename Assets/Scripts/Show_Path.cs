@@ -6,17 +6,27 @@ public class Show_Path : MonoBehaviour
 {
     [SerializeField]
     private Transform target;
+
     [SerializeField]
     private Transform player;
     private NavMeshPath path;
+
     [SerializeField]
     private float dotSpacing = 0.5f;
+
     [SerializeField]
     private Vector3 route_offset = new Vector3(0, 1.5f, 2); // Offset the line renderer so it is above the ground
     private float elapsed = 0.0f;
-    [SerializeField] private float refresh_time = 0.25f;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private bool isLineActive = false;
+
+    [SerializeField]
+    private float refresh_time = 0.25f;
+
+    [SerializeField]
+    private LineRenderer lineRenderer;
+
+    [SerializeField]
+    private bool isLineActive = false;
+
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -24,24 +34,24 @@ public class Show_Path : MonoBehaviour
         lineRenderer.textureMode = LineTextureMode.Tile;
         path = new NavMeshPath();
         elapsed = 0.0f;
-
     }
 
     void Update()
     {
         // Update the way to the goal every second.
-        if (isLineActive && player != null && target != null){
-            // Debug.Log("isLineActive");
-        elapsed += Time.deltaTime;
-        if (elapsed > refresh_time)
+        if (isLineActive && player != null && target != null)
         {
-                   CalculateAndSetLinePositions();
-                   elapsed = 0.0f;
-        }
+            // Debug.Log("isLineActive");
+            elapsed += Time.deltaTime;
+            if (elapsed > refresh_time)
+            {
+                CalculateAndSetLinePositions();
+                elapsed = 0.0f;
+            }
         }
     }
 
-        private void CalculateAndSetLinePositions()
+    private void CalculateAndSetLinePositions()
     {
         // Debug.Log("CalculateAndSetLinePositions");
         // Calculate a path from the player's position to the target object using NavMesh
@@ -75,7 +85,10 @@ public class Show_Path : MonoBehaviour
             lineRenderer.SetPosition(i, position + player.forward * 500f);
 
             // Set the gap between each dot
-            lineRenderer.SetPosition(i, position + (lineRenderer.GetPosition(i) - position).normalized * segmentLength);
+            lineRenderer.SetPosition(
+                i,
+                position + (lineRenderer.GetPosition(i) - position).normalized * segmentLength
+            );
         }
     }
 
@@ -104,6 +117,4 @@ public class Show_Path : MonoBehaviour
     {
         this.target = target;
     }
-
 }
-

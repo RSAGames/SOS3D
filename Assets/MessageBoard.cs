@@ -12,14 +12,11 @@ public class MessageBoard : MonoBehaviour
     void Awake()
     {
         text = gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        DisableMessageBoard();    
+        DisableMessageBoard();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
     public void EnableMessageBoard(string message)
     {
@@ -40,5 +37,3 @@ public class MessageBoard : MonoBehaviour
         text.text = message;
     }
 }
-
-

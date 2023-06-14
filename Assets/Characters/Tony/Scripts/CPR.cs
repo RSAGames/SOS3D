@@ -6,19 +6,41 @@ using UnityEngine.UI;
 
 public class CPR : MonoBehaviour
 {
-    
-    [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Animator patientAnimator;
-    [SerializeField] private GameObject patient;
-    [SerializeField] private Vector3 patientOffset = new Vector3(0.14f, 0f , 0.04f);
-    [SerializeField] private Vector3 RotationOffset = new Vector3(0f, 0f, 0f);
-    [SerializeField] private int requiredClicks = 100;
-    [SerializeField] private int maxClicks = 120;
-    [SerializeField] private InputAction push = new InputAction(type: InputActionType.Button);
-    [SerializeField] private float timer = 0f;
-    [SerializeField] private float maxTime = 15f;
-    [SerializeField] private int clickCount = 0;
-    [SerializeField] private Vector3 targetPosition;
+    [SerializeField]
+    private Animator playerAnimator;
+
+    [SerializeField]
+    private Animator patientAnimator;
+
+    [SerializeField]
+    private GameObject patient;
+
+    [SerializeField]
+    private Vector3 patientOffset = new Vector3(0.14f, 0f, 0.04f);
+
+    [SerializeField]
+    private Vector3 RotationOffset = new Vector3(0f, 0f, 0f);
+
+    [SerializeField]
+    private int requiredClicks = 100;
+
+    [SerializeField]
+    private int maxClicks = 120;
+
+    [SerializeField]
+    private InputAction push = new InputAction(type: InputActionType.Button);
+
+    [SerializeField]
+    private float timer = 0f;
+
+    [SerializeField]
+    private float maxTime = 15f;
+
+    [SerializeField]
+    private int clickCount = 0;
+
+    [SerializeField]
+    private Vector3 targetPosition;
     private bool isResuscitating = false;
     private bool isSuccess = false;
     private float startTime;
@@ -26,7 +48,9 @@ public class CPR : MonoBehaviour
     private IEnumerator coroutine;
     private AudioSource callingAudioSource;
     private bool startResuscitationOnce = true;
-    [SerializeField] private GameObject MessageBoard;
+
+    [SerializeField]
+    private GameObject MessageBoard;
 
     private CharacterController characterController;
 
@@ -64,7 +88,12 @@ public class CPR : MonoBehaviour
             float timeElapsed = Time.time - startTime;
             clickCount++;
             clicksPerMin = Mathf.RoundToInt((clickCount / timeElapsed) * 60);
-            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("You need to do between 100 to 120 clicks per minute\n Clicks per minute: " + clicksPerMin.ToString());
+            MessageBoard
+                .GetComponent<MessageBoard>()
+                .EnableMessageBoard(
+                    "You need to do between 100 to 120 clicks per minute\n Clicks per minute: "
+                        + clicksPerMin.ToString()
+                );
         }
 
         if (isResuscitating)
@@ -84,45 +113,54 @@ public class CPR : MonoBehaviour
         StartCoroutine(MoveToPatientCoroutine());
     }
 
-  private IEnumerator MoveToPatientCoroutine()
-{
-    
-    playerAnimator.SetBool("isWalking", true);
-    // get heart object from patient son Wolf3D_Avatar (the heart is a child of the Wolf3D_Avatar)
-    GameObject heart = patient.transform.Find("Heart").gameObject;
-
-    // Get patient heart position by his child object called Heart
-    if (heart == null)
+    private IEnumerator MoveToPatientCoroutine()
     {
-        Debug.LogError("Patient does not have a child object called Heart");
-    }
-    else {
-        targetPosition = heart.transform.position;
-        Debug.Log("Target position: " + targetPosition);
-        }
-    Quaternion targetRotation = heart.transform.rotation;
+        playerAnimator.SetBool("isWalking", true);
+        // get heart object from patient son Wolf3D_Avatar (the heart is a child of the Wolf3D_Avatar)
+        GameObject heart = patient.transform.Find("Heart").gameObject;
 
-    while (Vector3.Distance(transform.position, targetPosition) > 0.01f || Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
-    {
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.01f)
+        // Get patient heart position by his child object called Heart
+        if (heart == null)
         {
-            playerAnimator.SetBool("isWalking", false);
+            Debug.LogError("Patient does not have a child object called Heart");
         }
-        transform.position = Vector3.Lerp(transform.position, targetPosition, 1f * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1f * Time.deltaTime);
-        yield return null;
+        else
+        {
+            targetPosition = heart.transform.position;
+            Debug.Log("Target position: " + targetPosition);
+        }
+        Quaternion targetRotation = heart.transform.rotation;
+
+        while (
+            Vector3.Distance(transform.position, targetPosition) > 0.01f
+            || Quaternion.Angle(transform.rotation, targetRotation) > 0.01f
+        )
+        {
+            if (Vector3.Distance(transform.position, targetPosition) <= 0.01f)
+            {
+                playerAnimator.SetBool("isWalking", false);
+            }
+            transform.position = Vector3.Lerp(
+                transform.position,
+                targetPosition,
+                1f * Time.deltaTime
+            );
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                1f * Time.deltaTime
+            );
+            yield return null;
+        }
+
+        playerAnimator.SetBool("isWalking", false);
+
+        patientAnimator.SetBool("ReceivingCPR", true);
+        playerAnimator.SetBool("CPR", true);
+
+        isResuscitating = true;
+        startTime = Time.time;
     }
-
-    playerAnimator.SetBool("isWalking", false);
-
-    patientAnimator.SetBool("ReceivingCPR", true);
-    playerAnimator.SetBool("CPR", true);
-
-    isResuscitating = true;
-    startTime = Time.time;
-}
-
-
 
     private void EndResuscitation()
     {
@@ -135,19 +173,26 @@ public class CPR : MonoBehaviour
         }
         if (isSuccess)
         {
-            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("CPR succeeded. You did " + clicksPerMin.ToString() + " clicks per minute.");
+            MessageBoard
+                .GetComponent<MessageBoard>()
+                .EnableMessageBoard(
+                    "CPR succeeded. You did " + clicksPerMin.ToString() + " clicks per minute."
+                );
             patientAnimator.SetBool("ReceivingCPR", false);
             patientAnimator.SetTrigger("StandUp");
         }
         else
         {
-            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.");
+            MessageBoard
+                .GetComponent<MessageBoard>()
+                .EnableMessageBoard(
+                    "CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute."
+                );
             // Destroy(patient);
             patientAnimator.SetTrigger("StandUp");
             Life_Manager.hasFailed = true;
         }
-        
-        
+
         transform.GetComponent<CharacterKeyboardMover>().enabled = true;
     }
 
@@ -162,4 +207,3 @@ public class CPR : MonoBehaviour
         patientAnimator = patient.GetComponent<Animator>();
     }
 }
-

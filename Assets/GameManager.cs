@@ -5,25 +5,57 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject playerCamera;
-    [SerializeField] private GameObject playerCanvas;
-    [SerializeField] private GameObject playerHealthBar;
-    [SerializeField] private GameObject playerHealthBarBackground;
-    [SerializeField] private GameObject playerHealthBarInner;
+
+    [SerializeField]
+    private GameObject player;
+
+    [SerializeField]
+    private GameObject playerCamera;
+
+    [SerializeField]
+    private GameObject playerCanvas;
+
+    [SerializeField]
+    private GameObject playerHealthBar;
+
+    [SerializeField]
+    private GameObject playerHealthBarBackground;
+
+    [SerializeField]
+    private GameObject playerHealthBarInner;
     private GameObject currentPatient = null;
-    [SerializeField] private int numberOfPatients;
-    [SerializeField] private int numberOfActivePatients;
-    [SerializeField] private GameObject[] patients;
-    [SerializeField] private Life_Manager lifeManager;
-    [SerializeField] private GameObject[] prefabsToCreate;
-    [SerializeField] private int numberOfPrefabsToCreate;
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Transform[] navigationPoints;
-    [SerializeField] private GameObject[] prefabs;
-    [SerializeField] private Transform[] cprPoints;
+
+    [SerializeField]
+    private int numberOfPatients;
+
+    [SerializeField]
+    private int numberOfActivePatients;
+
+    [SerializeField]
+    private GameObject[] patients;
+
+    [SerializeField]
+    private Life_Manager lifeManager;
+
+    [SerializeField]
+    private GameObject[] prefabsToCreate;
+
+    [SerializeField]
+    private int numberOfPrefabsToCreate;
+
+    [SerializeField]
+    private Transform[] spawnPoints;
+
+    [SerializeField]
+    private Transform[] navigationPoints;
+
+    [SerializeField]
+    private GameObject[] prefabs;
+
+    [SerializeField]
+    private Transform[] cprPoints;
     private bool tests_bool = true;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,7 +123,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Player health bar inner found");
-        }    
+        }
 
         if (lifeManager == null)
         {
@@ -118,12 +150,21 @@ public class GameManager : MonoBehaviour
             int randomIndex = Random.Range(0, prefabsToCreate.Length);
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
             // Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
-            GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[0], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+            GameObject InstantiatedPrefab = Instantiate(
+                prefabsToCreate[0],
+                spawnPoints[randomSpawnPointIndex].position,
+                Quaternion.identity
+            );
             prefabs[i] = InstantiatedPrefab;
         }
 
-        for (int i=0 ; i<numberOfPatients ; i++){
-            GameObject patient = Instantiate(prefabsToCreate[1], cprPoints[i].position, cprPoints[i].rotation);
+        for (int i = 0; i < numberOfPatients; i++)
+        {
+            GameObject patient = Instantiate(
+                prefabsToCreate[1],
+                cprPoints[i].position,
+                cprPoints[i].rotation
+            );
             patients[i] = patient;
         }
     }
@@ -133,20 +174,23 @@ public class GameManager : MonoBehaviour
     {
         SetCurrentPatient();
     }
-    
-    
-    void SetCurrentPatient(){
-        if (currentPatient == null){
+
+    void SetCurrentPatient()
+    {
+        if (currentPatient == null)
+        {
             currentPatient = ChooseRandomPatient();
             SetPath(currentPatient.transform);
             player.GetComponent<CPR>().SetPatient(currentPatient);
         }
     }
 
-    GameObject ChooseRandomPatient(){
+    GameObject ChooseRandomPatient()
+    {
         int randomIndex = Random.Range(0, patients.Length);
         GameObject patient = patients[randomIndex];
-        while (patient == null){
+        while (patient == null)
+        {
             randomIndex = Random.Range(0, patients.Length);
             patient = patients[randomIndex];
         }
@@ -156,31 +200,28 @@ public class GameManager : MonoBehaviour
         return patient;
     }
 
-
-
-private bool IsPatientInList(GameObject patient)
-{
-    // Check if the patient is already in the patients list by comparing game object IDs
-    for (int i = 0; i < patients.Length; i++)
+    private bool IsPatientInList(GameObject patient)
     {
-        if (patients[i] != null && patients[i].GetInstanceID() == patient.GetInstanceID())
+        // Check if the patient is already in the patients list by comparing game object IDs
+        for (int i = 0; i < patients.Length; i++)
         {
-            return true;
+            if (patients[i] != null && patients[i].GetInstanceID() == patient.GetInstanceID())
+            {
+                return true;
+            }
         }
+
+        return false;
     }
 
-    return false;
-}
-    
     private void SetPath(Transform destinatioin)
     {
         // get Show_Path script of child object of player named Wolf3DAvatar
-        Show_Path showPath = player.transform.Find("Wolf3D_Avatar").gameObject.GetComponent<Show_Path>();
+        Show_Path showPath = player.transform
+            .Find("Wolf3D_Avatar")
+            .gameObject.GetComponent<Show_Path>();
         showPath.SetTarget(destinatioin);
         showPath.SetLineActive(true); // set line active
         // set destination of path
-
     }
 }
-
-

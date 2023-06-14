@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class AgentNavigation : MonoBehaviour
 {
-    
-    [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform[] navigationPoints;
-    [SerializeField] private int navigationPointsSize = 10;
+    [SerializeField]
+    private UnityEngine.AI.NavMeshAgent agent;
 
+    [SerializeField]
+    private Animator animator;
 
-    
+    [SerializeField]
+    private Transform[] navigationPoints;
+
+    [SerializeField]
+    private int navigationPointsSize = 10;
+
     private void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -26,38 +30,37 @@ public class AgentNavigation : MonoBehaviour
             navigationPoints[i] = wayPoints[i].transform;
         }
         // set the agent's destination to a random navigation point
-        }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
-   void Update()
+    // Start is called before the first frame update
+    void Start() { }
+
+    void Update()
     {
         if (agent.isStopped == true)
         {
             animator.SetBool("isWalking", false);
             agent.SetDestination(transform.position);
         }
-        
+
         // if agent isn't moving, play idle animation and choose a new destination
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
             animator.SetBool("isWalking", false);
             int randomIndex = Random.Range(0, navigationPoints.Length);
             UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
-            UnityEngine.AI.NavMesh.CalculatePath(transform.position, navigationPoints[randomIndex].transform.position, UnityEngine.AI.NavMesh.AllAreas, path);
+            UnityEngine.AI.NavMesh.CalculatePath(
+                transform.position,
+                navigationPoints[randomIndex].transform.position,
+                UnityEngine.AI.NavMesh.AllAreas,
+                path
+            );
             agent.SetPath(path);
             animator.SetBool("isWalking", true);
-}
-}
-
-    public void SetNavPoints(Transform[] navigationPoints) 
-    {
-
+        }
     }
+
+    public void SetNavPoints(Transform[] navigationPoints) { }
 
     public void StopAgent()
     {
