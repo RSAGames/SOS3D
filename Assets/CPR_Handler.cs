@@ -36,6 +36,7 @@ public class CPR_Handler : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= 5f)
         {
+            player.GetComponent<CPR>().SetPatient(gameObject);
             return true;
         }
         else

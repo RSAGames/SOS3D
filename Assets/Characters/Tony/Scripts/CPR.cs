@@ -156,6 +156,9 @@ public class CPR : MonoBehaviour
         return Vector3.Distance(transform.position, patient.transform.position) < 5f;
     }
 
-
+    public void SetPatient(GameObject patient)
+    {
+        this.patient = patient;
+    }
 }
 
