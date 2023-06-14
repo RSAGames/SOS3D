@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform[] navigationPoints;
     [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private Transform[] cprPoints;
     private bool tests_bool = true;
     
     // Start is called before the first frame update
@@ -119,27 +120,21 @@ public class GameManager : MonoBehaviour
             GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
             prefabs[i] = InstantiatedPrefab;
         }
+
+        for (int i=0 ; i<numberOfPatients ; i++){
+            GameObject patient = Instantiate(prefabs[1], cprPoints[i].position, Quaternion.identity);
+            patients[i] = patient;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool setPatient = CheckPatientsStatus();
-        if(setPatient){
-            GameObject patient = ChooseRandomPatient();
-            patients[numberOfActivePatients++] = patient;
-            Debug.Log("Patient " + patient + " added to the patients list");
-            patient.GetComponent<AgentNavigation>().StopAgent();
-            patient.GetComponent<AgentNavigation>().enabled = false;
-            patients[numberOfActivePatients - 1].GetComponent<Animator>().SetBool("Dying", true);
-            patients[numberOfActivePatients - 1].GetComponent<Animator>().SetBool("isLying", true);
-            
-
         }
     }
     
     private bool CheckPatientsStatus(){
-        if(numberOfActivePatients == numberOfPatients){
+        if(numberOfActivePatients <= numberOfPatients){
             return false;
         }
 
