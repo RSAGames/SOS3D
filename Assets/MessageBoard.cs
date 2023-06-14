@@ -9,7 +9,7 @@ public class MessageBoard : MonoBehaviour
     private GameObject messageBoard;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         text = gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         DisableMessageBoard();    

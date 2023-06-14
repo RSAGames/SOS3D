@@ -30,7 +30,8 @@ public class Show_Path : MonoBehaviour
     void Update()
     {
         // Update the way to the goal every second.
-        if (isLineActive){
+        if (isLineActive && player != null && target != null){
+            // Debug.Log("isLineActive");
         elapsed += Time.deltaTime;
         if (elapsed > refresh_time)
         {
@@ -42,9 +43,12 @@ public class Show_Path : MonoBehaviour
 
         private void CalculateAndSetLinePositions()
     {
+        // Debug.Log("CalculateAndSetLinePositions");
         // Calculate a path from the player's position to the target object using NavMesh
         path = new NavMeshPath();
         NavMesh.CalculatePath(player.position, target.position, NavMesh.AllAreas, path);
+
+        Debug.Log("path.corners.Length: " + path.corners.Length);
 
         // Calculate the total length of the path
         float pathLength = 0f;
@@ -94,7 +98,11 @@ public class Show_Path : MonoBehaviour
     public void SetLineActive(bool active)
     {
         isLineActive = active;
-        lineRenderer.enabled = active;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
     }
 
 }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerHealthBar;
     [SerializeField] private GameObject playerHealthBarBackground;
     [SerializeField] private GameObject playerHealthBarInner;
+    private GameObject currentPatient = null;
     [SerializeField] private int numberOfPatients;
     [SerializeField] private int numberOfActivePatients;
     [SerializeField] private GameObject[] patients;
@@ -130,32 +131,32 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        SetCurrentPatient();
     }
     
     
-    private bool CheckPatientsStatus(){
-        if(numberOfActivePatients <= numberOfPatients){
-            return false;
+    void SetCurrentPatient(){
+        if (currentPatient == null){
+            currentPatient = ChooseRandomPatient();
+            SetPath(currentPatient.transform);
+            player.GetComponent<CPR>().SetPatient(currentPatient);
         }
-
-        return true;
     }
 
-    private GameObject ChooseRandomPatient()
-{
-    int randomIndex = Random.Range(0, prefabs.Length);
-    GameObject randomPatient = prefabs[randomIndex];
-
-    // Check if the patient is already in the patients list
-    if (IsPatientInList(randomPatient))
-    {
-        // Choose another random patient
-        return ChooseRandomPatient();
+    GameObject ChooseRandomPatient(){
+        int randomIndex = Random.Range(0, patients.Length);
+        GameObject patient = patients[randomIndex];
+        while (patient == null){
+            randomIndex = Random.Range(0, patients.Length);
+            patient = patients[randomIndex];
+        }
+        patient.GetComponent<Animator>().SetBool("Dying", true);
+        patient.GetComponent<Animator>().SetBool("isLying", true);
+        patients[randomIndex] = null;
+        return patient;
     }
 
-    return randomPatient;
-}
+
 
 private bool IsPatientInList(GameObject patient)
 {
@@ -171,7 +172,15 @@ private bool IsPatientInList(GameObject patient)
     return false;
 }
     
-    }
+    private void SetPath(Transform destinatioin)
+    {
+        // get Show_Path script of child object of player named Wolf3DAvatar
+        Show_Path showPath = player.transform.Find("Wolf3D_Avatar").gameObject.GetComponent<Show_Path>();
+        showPath.SetTarget(destinatioin);
+        showPath.SetLineActive(true); // set line active
+        // set destination of path
 
+    }
+}
 
 

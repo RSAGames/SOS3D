@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class CPR : MonoBehaviour
 {
-    [SerializeField] private GameObject rightClick;
-    [SerializeField] private GameObject wrongClick;
+    
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Animator patientAnimator;
     [SerializeField] private GameObject patient;
@@ -147,8 +146,8 @@ public class CPR : MonoBehaviour
             patientAnimator.SetTrigger("StandUp");
             Life_Manager.hasFailed = true;
         }
-        rightClick.SetActive(false);
-        wrongClick.SetActive(false);
+        
+        
         transform.GetComponent<CharacterKeyboardMover>().enabled = true;
     }
 

@@ -98,7 +98,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator loadMainScene()
     {
-        yield return new WaitForSeconds(61);
+        yield return new WaitForSeconds(40);
         SceneManager.LoadScene(sceneName); 
     }
 

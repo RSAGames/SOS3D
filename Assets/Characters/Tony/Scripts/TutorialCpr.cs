@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class TutorialCpr : MonoBehaviour
 {
-    [SerializeField] private GameObject rightClick;
-    [SerializeField] private GameObject wrongClick;
+    
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Animator patientAnimator;
     [SerializeField] private GameObject patient;
@@ -141,10 +140,10 @@ public class TutorialCpr : MonoBehaviour
             MessageBoard.GetComponent<MessageBoard>().UpdateMessage("CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.");
             patientAnimator.SetBool("ReceivingCPR", false);
             patientAnimator.SetBool("StandUp", false);
+            Destroy(patient);
             Life_Manager.hasFailed = true;
         }
-        rightClick.SetActive(false);
-        wrongClick.SetActive(false);
+        
         transform.GetComponent<CharacterKeyboardMover>().enabled = true;
     }
 
