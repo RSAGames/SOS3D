@@ -19,13 +19,16 @@ public class CprPatient : MonoBehaviour
         Collider.isTrigger = true;
     }
 
+    private void Start()
+    {
+        MessageBoard = GameObject.Find("Canvas/MessageBoard");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            MessageBoardText.text = "This person has heart attack";
-            MessageBoard.SetActive(true);
-            Debug.Log("Triggered");
+            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("This person has heart attack");
+            // Debug.Log("Triggered");
         }
 
     }
@@ -34,12 +37,12 @@ public class CprPatient : MonoBehaviour
     {
          if (other.gameObject.tag == "Player")
         {
-            if (MessageBoard != null)
-            {
-                MessageBoard.SetActive(false);
-                MessageBoardText.text = "";
-                Debug.Log("Triggered Exit");
-            }
+            MessageBoard.GetComponent<MessageBoard>().DisableMessageBoard();
+            // Debug.Log("Triggered");
         }
     }
+
+    
+
+    
 }
