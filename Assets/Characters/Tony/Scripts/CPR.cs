@@ -35,7 +35,7 @@ public class CPR : MonoBehaviour
     {
         MessageBoardText.text = "";
         characterController = GetComponent<CharacterController>();
-        patientAnimator = patient.GetComponent<Animator>();
+        // patientAnimator = patient.GetComponent<Animator>();
     }
 
     void OnEnable()
@@ -159,6 +159,7 @@ public class CPR : MonoBehaviour
     public void SetPatient(GameObject patient)
     {
         this.patient = patient;
+        patientAnimator = patient.GetComponent<Animator>();
     }
 }
 
