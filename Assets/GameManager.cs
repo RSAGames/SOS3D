@@ -117,12 +117,12 @@ public class GameManager : MonoBehaviour
             int randomIndex = Random.Range(0, prefabsToCreate.Length);
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
             // Debug.Log("Creating prefab " + prefabsToCreate[randomIndex].name + " at spawn point " + spawnPoints[randomSpawnPointIndex].name);
-            GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[randomIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+            GameObject InstantiatedPrefab = Instantiate(prefabsToCreate[0], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
             prefabs[i] = InstantiatedPrefab;
         }
 
         for (int i=0 ; i<numberOfPatients ; i++){
-            GameObject patient = Instantiate(prefabs[1], cprPoints[i].position, Quaternion.identity);
+            GameObject patient = Instantiate(prefabsToCreate[1], cprPoints[i].position, cprPoints[i].rotation);
             patients[i] = patient;
         }
     }
@@ -130,8 +130,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        }
+        
     }
+    
     
     private bool CheckPatientsStatus(){
         if(numberOfActivePatients <= numberOfPatients){
