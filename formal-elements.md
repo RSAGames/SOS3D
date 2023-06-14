@@ -1,6 +1,6 @@
 <div dir='rtl' lang='he'>
 
-# SOS (Save Our Ship)
+# SOS 
   
 **"The clock is ticking, will you be able to save them all?"**
 
