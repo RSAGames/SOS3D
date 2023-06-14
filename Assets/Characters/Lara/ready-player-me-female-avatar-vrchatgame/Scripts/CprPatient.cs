@@ -27,7 +27,9 @@ public class CprPatient : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("This person has heart attack");
+            gameObject.GetComponent<Animator>().SetBool("Dying", true);
+            gameObject.GetComponent<Animator>().SetBool("isLying", true);
+            MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("This person is having an heart attack. \n Press C to start CPR.");
             // Debug.Log("Triggered");
         }
 

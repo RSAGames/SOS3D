@@ -16,6 +16,7 @@ public class Show_Path : MonoBehaviour
     private float elapsed = 0.0f;
     [SerializeField] private float refresh_time = 0.25f;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private bool isLineActive = false;
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -23,18 +24,19 @@ public class Show_Path : MonoBehaviour
         lineRenderer.textureMode = LineTextureMode.Tile;
         path = new NavMeshPath();
         elapsed = 0.0f;
-        CalculateAndSetLinePositions();
 
     }
 
     void Update()
     {
         // Update the way to the goal every second.
+        if (isLineActive){
         elapsed += Time.deltaTime;
         if (elapsed > refresh_time)
         {
                    CalculateAndSetLinePositions();
                    elapsed = 0.0f;
+        }
         }
     }
 
@@ -88,4 +90,12 @@ public class Show_Path : MonoBehaviour
         }
         return path.corners[path.corners.Length - 1];
     }
+
+    public void SetLineActive(bool active)
+    {
+        isLineActive = active;
+        lineRenderer.enabled = active;
+    }
+
 }
+

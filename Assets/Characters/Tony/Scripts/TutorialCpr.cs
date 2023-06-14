@@ -27,14 +27,15 @@ public class TutorialCpr : MonoBehaviour
     private IEnumerator coroutine;
     private AudioSource callingAudioSource;
     private bool startResuscitationOnce = true;
-    [SerializeField] private TextMeshProUGUI MessageBoardText;
+    [SerializeField] private GameObject MessageBoard;
 
     private CharacterController characterController;
 
     void Start()
     {
-        MessageBoardText.text = "";
+        MessageBoard = GameObject.Find("Canvas/MessageBoard");
         characterController = GetComponent<CharacterController>();
+        patientAnimator = patient.GetComponent<Animator>();
     }
 
     void OnEnable()
@@ -62,7 +63,7 @@ public class TutorialCpr : MonoBehaviour
             float timeElapsed = Time.time - startTime;
             clickCount++;
             clicksPerMin = Mathf.RoundToInt((clickCount / timeElapsed) * 60);
-            MessageBoardText.text = "You need to do between 100 to 120 clicks per minute\n Clicks per minute: " + clicksPerMin.ToString();
+            MessageBoard.GetComponent<MessageBoard>().UpdateMessage("Clicks per minute: " + clicksPerMin);
         }
 
         if (isResuscitating)
@@ -131,13 +132,13 @@ public class TutorialCpr : MonoBehaviour
         }
         if (isSuccess)
         {
-            MessageBoardText.text = "CPR successful! You did " + clicksPerMin.ToString() + " clicks per minute.";
+            MessageBoard.GetComponent<MessageBoard>().UpdateMessage("CPR succeeded. You did " + clicksPerMin.ToString() + " clicks per minute.");
             patientAnimator.SetBool("ReceivingCPR", false);
             patientAnimator.SetBool("StandUp", true);
         }
         else
         {
-            MessageBoardText.text = "CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.";
+            MessageBoard.GetComponent<MessageBoard>().UpdateMessage("CPR failed. You did " + clicksPerMin.ToString() + " clicks per minute.");
             patientAnimator.SetBool("ReceivingCPR", false);
             patientAnimator.SetBool("StandUp", false);
             Life_Manager.hasFailed = true;

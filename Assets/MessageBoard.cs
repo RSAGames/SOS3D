@@ -34,4 +34,11 @@ public class MessageBoard : MonoBehaviour
         text.enabled = false;
         text.text = "";
     }
+
+    public void UpdateMessage(string message)
+    {
+        text.text = message;
+    }
 }
+
+

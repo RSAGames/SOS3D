@@ -13,15 +13,19 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] InputAction runningAction;
     [SerializeField] InputAction cprAction;
     [SerializeField] private GameObject MessageBoard;
-    [SerializeField] private TextMeshProUGUI MessageBoardText;
+    [SerializeField] private GameObject patient;
     [SerializeField] string triggeringTag;
+    private bool jumpFlag = true;
+    private bool runningFlag = true;
+    private bool walkingFlag = true;
     private bool flag = true;
     [SerializeField] private string sceneName;
     private IEnumerator coroutine;
 
     void Start(){
-        MessageBoard.SetActive(true);
-        MessageBoardText.text = "Use A,S,D,W keys to move";
+        // Find the MessageBoard object
+        MessageBoard = GameObject.Find("Canvas/MessageBoard");
+        MessageBoard.GetComponent<MessageBoard>().EnableMessageBoard("Use W, A, S, D keys to move");
     }
 
     void OnValidate()
@@ -69,18 +73,23 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update(){
         Vector2 movement = moveAction.ReadValue<Vector2>();
-        if (runningAction.IsPressed() && movement.magnitude > 0){
-            MessageBoardText.text = "Go to the patient";
+        if (runningAction.IsPressed() && movement.magnitude > 0 && runningFlag){
+            MessageBoard.GetComponent<MessageBoard>().UpdateMessage("Use space key to jump");
+            runningFlag = false;
+
+
         }
-        else if (jumpAction.IsPressed()){
-            MessageBoardText.text = "Use Left Shift key to run";
+        else if (jumpAction.IsPressed() && jumpFlag){
+            // get show path component of the gameobject child name "Wolf3D_Avatar"
+            gameObject.transform.Find("Wolf3D_Avatar").gameObject.GetComponent<Show_Path>().SetLineActive(true);
+            MessageBoard.GetComponent<MessageBoard>().UpdateMessage("Follow the blue circles above the player head to reach the patient");
+            jumpFlag = false;
         }
-        else if(movement.magnitude > 0){
-            if(flag){ // Uses bool variable for changing the text only once when player presses one of the 4 keys to move 
-                MessageBoardText.text = "Use space key to jump";
-                flag = false;
+        else if(movement.magnitude > 0 && walkingFlag){
+                MessageBoard.GetComponent<MessageBoard>().UpdateMessage("Use left shift key to run");
+                walkingFlag = false;
             }
-        }
+        
         else if (cprAction.IsPressed()){
             coroutine = loadMainScene();
             StartCoroutine(coroutine);    
@@ -98,8 +107,8 @@ public class TutorialManager : MonoBehaviour
     {
         if (other.gameObject.tag == "CprPatient")
         {
-            MessageBoardText.text = "This person has heart attack, use the C key to make cpr";
-            Debug.Log("Triggered");
+            // MessageBoard.GetComponent<MessageBoard>().UpdateMessage("This person has heart attack, use the C key to make cpr");
+            // Debug.Log("Triggered");
         }
 
     }
@@ -110,9 +119,8 @@ public class TutorialManager : MonoBehaviour
         {
             if (MessageBoard != null)
             {
-                MessageBoard.SetActive(false);
-                MessageBoardText.text = "";
-                Debug.Log("Triggered Exit");
+                MessageBoard.GetComponent<MessageBoard>().DisableMessageBoard();
+                // Debug.Log("Triggered Exit");
             }
         }
     }
